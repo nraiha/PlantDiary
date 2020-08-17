@@ -1,3 +1,9 @@
+import json
+from flask import Response, request, url_for
+from PlantDiary.constants import *
+from PlantDiary.models import *
+
+
 class MasonBuilder(dict):
     """
     A convenience class for managing dictionaries that represent Mason
@@ -59,6 +65,108 @@ class MasonBuilder(dict):
 
 
 class PlantBuilder(MasonBuilder):
-    # TODO: CREATE ADD CONTROL FUNCTIONS
-    def add_controll_all_plants(self):
-        pass
+
+# POST
+    # GENERAL PLANT
+    def add_control_add_general_plant(self):
+        self.add_control(
+            "plandi:add-generalplant",
+            url_for("api.plantgeneralcollection"),
+            method="POST",
+            encoding="json",
+            title="Add new general plant information",
+            schema=PlantGeneral.get_schema()
+        )
+    ## PLANT
+    def add_control_add_plant(self):
+        self.add_control(
+            "plandi:add-plant",
+            url_for("api.plantcollection"),
+            method="POST",
+            encoding="json",
+            title="Add new plant information",
+            schema=Plant.get_schema()
+        )
+    ## DIARY
+    def add_control_add_diary_entry(self):
+        self.add_control(
+            "plandi:add-entry",
+            url_for("api.diarycollection"),
+            method="POST",
+            encoding="json",
+            title="Add new diary entry",
+            schema=Diary.get_schema()
+        )
+
+## DELETE
+    # GENERAL PLANT
+    def add_control_delete_general_plant(self, plant):
+        self.add_control(
+            "plandi:delete",
+            url_for("api.generalplant", plant_id=plant),
+            method="DELETE",
+            title="Delete given general plant information"
+        )
+    # PLANT
+    def add_control_delete_plant(self, plant):
+        self.add_control(
+            "plandi:delete",
+            url_for("api.plant", plant_id=plant),
+            method="DELETE",
+            title="Delete given plant information"
+        )
+    # DIARY
+    def add_control_delete_diary_entry(self, entry_id):
+        self.add_control(
+            "plandi:delete",
+            url_for("api.plant", entry_id=entry_id),
+            method="DELETE",
+            title="Delete given diary entry"
+        )
+## GET
+    # GENERAL PLANT
+    def add_control_all_general_plants(self):
+        self.add_control(
+            "plandi:plantsgeneral-all",
+            url_for("api.plantgeneralcollection"),
+            method="GET",
+            encoding="json"
+        )
+    # PLANT
+    def add_control_all_plants(self):
+        self.add_control(
+            "plandi:plants-all",
+            url_for("api.plantcollection"),
+            method="GET",
+            encoding="json"
+        )
+    # DIARY
+    def add_control_all_diary(self):
+        self.add_control(
+            "plandi:diaryentry-all",
+            url_for("api.diarycollection"),
+            method="GET",
+            encoding="json"
+        )
+# PUT
+    # GENERAL PLANT
+    def add_control_modify_general_plant(self, plant):
+        self.add_control(
+            "edit",
+            url_for("api.PlantGeneral", plant_id=plant),
+            method="PUT",
+            encoding="json",
+            title="Edit given general plant information",
+            schema=PlantGeneral.get_schema()
+        )
+    # PLANT
+    def add_control_modify_plant(self, plant_id):
+        self.add_control(
+            "edit",
+            url_for("api.PlantGeneral", plant_id=plant_id),
+            method="PUT",
+            encoding="json",
+            title="Edit given plant information",
+            schema=PlantGeneral.get_schema()
+        )
+    

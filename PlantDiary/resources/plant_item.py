@@ -13,7 +13,7 @@ class PlantItem(Resource):
         pass
 
 
-class PlantItemCollection(Resource):
+class PlantCollection(Resource):
     def get(self):
         pass
 
